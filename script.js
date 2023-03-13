@@ -5,6 +5,7 @@ const gameBoard = (() => {
 
 const Player = (name, icon) => {
     const markedSquares = [9, 8, 7];
+    const addToMarkedSquares = (squareNum) => markedSquares.push(squareNum);
 
     const getName = () => name;
     const getIcon = () => icon;
@@ -30,36 +31,48 @@ const Player = (name, icon) => {
     const matchedSquares = () => winningSquares.some((array) => {
         if (array === markedSquaresSorted()) {
             endGame();
-            console.log(icon);
             return true;
         }
     });
 
-    return { matchedSquares };
+    return { matchedSquares, endGame, addToMarkedSquares };
 };
 
 const chooseIcons = (x, o) => {
-    const icon = 'xo';
     const firstPlayerIcon = () => x;
     const secondPlayerIcon = () => o;
 
-    return { firstPlayerIcon, secondPlayerIcon, icon };
+    return { firstPlayerIcon, secondPlayerIcon };
 };
 
 const selectedIcon = (() => {
-    const icons = chooseIcons().icon;
+    const icon = 'iceFire';
+
     const xo = chooseIcons('x', 'o');
+    const catDog = chooseIcons('🐶', '🐱');
+    const iceFire = chooseIcons('🧊', '🔥');
 
     const selected = () => {
-        if (icons === 'xo') return xo;
+        if (icon === 'xo') return xo;
+        if (icon === 'catDog') return catDog;
+        if (icon === 'iceFire') return iceFire;
     };
 
-    return { selected };
+    let player1Icon = selected().firstPlayerIcon();
+    let player2Icon = selected().secondPlayerIcon();
+
+    const btn = document.querySelector('button');
+    btn.addEventListener('click', () => {
+        icon.selected = 'catDog';
+        player1Icon = selected().firstPlayerIcon();
+        player2Icon = selected().secondPlayerIcon();
+    });
+
+    return { player1Icon, player2Icon, icon };
 })();
 
-console.log(selectedIcon.selected().firstPlayerIcon());
+console.log(selectedIcon.player1Icon);
+
+// changeI();
 
 // const john = Player('john', catDog.firstPlayerIcon());
-// john.matchedSquares();
-
-// const gameController = ()();
