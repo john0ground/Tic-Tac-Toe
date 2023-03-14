@@ -4,35 +4,37 @@ const gameBoard = (() => {
 )();
 
 const player = (name) => {
-    const icon = 'X';
+    const icon = '';
 
     const markedSquares = [];
     const addToMarkedSquares = (squareNum) => markedSquares.push(squareNum);
 
-    // be able to match winningSquares
-    const markedSquaresSorted = () => markedSquares.sort().toString();
-
-    const winningSquares = [
-        '1,2,3',
-        '4,5,6',
-        '7,8,9',
-        '1,4,7',
-        '2,5,8',
-        '3,6,9',
-        '1,5,9',
-        '3,5,7',
+    const winningRows = [
+        [1, 2, 3],
+        [4, 5, 6],
+        [7, 8, 9],
+        [1, 4, 7],
+        [2, 5, 8],
+        [3, 6, 9],
+        [1, 5, 9],
+        [3, 5, 7],
     ];
 
     const endGame = () => {
         console.log(`${name} wins!`);
     };
 
-    const matchedSquares = () => winningSquares.some((array) => {
-        if (array === markedSquaresSorted()) {
-            endGame();
-            return true;
+    const matchedSquares = () => {
+        const isInMarkedSquares = (currentNum) => markedSquares.includes(currentNum);
+
+        let i = 0;
+        while (i < winningRows.length) {
+            if (winningRows[i].every(isInMarkedSquares)) {
+                return endGame();
+            }
+            i++;
         }
-    });
+    };
 
     return {
         matchedSquares, addToMarkedSquares, icon,
@@ -74,7 +76,7 @@ const gameController = (() => {
         if (this.textContent === '') {
             this.textContent = activePlayer.icon;
 
-            activePlayer.addToMarkedSquares(this.id);
+            activePlayer.addToMarkedSquares(parseInt(this.id, 10));
             activePlayer.matchedSquares();
 
             activePlayer === player1 ? activePlayer = player2 : activePlayer = player1;
@@ -91,7 +93,3 @@ const button2 = document.querySelector('.btn2');
 button2.addEventListener('click', () => {
     console.log(player2.icon);
 });
-
-// changeI();
-
-// const john = Player('john', catDog.firstPlayerIcon());
