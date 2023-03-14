@@ -45,33 +45,36 @@ const chooseIcons = (x, o) => {
     return { firstPlayerIcon, secondPlayerIcon };
 };
 
-const selectedIcon = (() => {
-    const icon = 'iceFire';
+let newIcon = 'iceFire';
 
+const selectedIcon = (() => {
     const xo = chooseIcons('x', 'o');
     const catDog = chooseIcons('🐶', '🐱');
     const iceFire = chooseIcons('🧊', '🔥');
 
-    const selected = () => {
+    const selected = (icon) => {
         if (icon === 'xo') return xo;
         if (icon === 'catDog') return catDog;
         if (icon === 'iceFire') return iceFire;
     };
 
-    let player1Icon = selected().firstPlayerIcon();
-    let player2Icon = selected().secondPlayerIcon();
+    // let player1Icon = selected().firstPlayerIcon();
+    // let player2Icon = selected().secondPlayerIcon();
 
     const btn = document.querySelector('button');
     btn.addEventListener('click', () => {
-        icon.selected = 'catDog';
-        player1Icon = selected().firstPlayerIcon();
-        player2Icon = selected().secondPlayerIcon();
+        // const player1Icon = selected().firstPlayerIcon();
+        // const player2Icon = selected().secondPlayerIcon();
+        newIcon = selected('catDog').firstPlayerIcon();
     });
 
-    return { player1Icon, player2Icon, icon };
+    // return { player1Icon, player2Icon };
 })();
 
-console.log(selectedIcon.player1Icon);
+const button2 = document.querySelector('.btn2');
+button2.addEventListener('click', () => {
+    console.log(newIcon);
+});
 
 // changeI();
 
