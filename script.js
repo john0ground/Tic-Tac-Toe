@@ -3,12 +3,11 @@ const gameBoard = (() => {
 }
 )();
 
-const Player = (name, icon) => {
-    const markedSquares = [9, 8, 7];
-    const addToMarkedSquares = (squareNum) => markedSquares.push(squareNum);
+const player = (name) => {
+    const icon = 'X';
 
-    const getName = () => name;
-    const getIcon = () => icon;
+    const markedSquares = [];
+    const addToMarkedSquares = (squareNum) => markedSquares.push(squareNum);
 
     // be able to match winningSquares
     const markedSquaresSorted = () => markedSquares.sort().toString();
@@ -35,8 +34,13 @@ const Player = (name, icon) => {
         }
     });
 
-    return { matchedSquares, endGame, addToMarkedSquares };
+    return {
+        matchedSquares, addToMarkedSquares, icon,
+    };
 };
+
+const player1 = player('Player1');
+const player2 = player('Player2');
 
 const chooseIcons = (x, o) => {
     const firstPlayerIcon = () => x;
@@ -44,8 +48,6 @@ const chooseIcons = (x, o) => {
 
     return { firstPlayerIcon, secondPlayerIcon };
 };
-
-let newIcon = 'iceFire';
 
 const selectedIcon = (() => {
     const xo = chooseIcons('x', 'o');
@@ -58,22 +60,36 @@ const selectedIcon = (() => {
         if (icon === 'iceFire') return iceFire;
     };
 
-    // let player1Icon = selected().firstPlayerIcon();
-    // let player2Icon = selected().secondPlayerIcon();
-
     const btn = document.querySelector('button');
     btn.addEventListener('click', () => {
-        // const player1Icon = selected().firstPlayerIcon();
-        // const player2Icon = selected().secondPlayerIcon();
-        newIcon = selected('catDog').firstPlayerIcon();
+        player1.icon = selected('catDog').firstPlayerIcon();
+        player2.icon = selected('catDog').secondPlayerIcon();
     });
+})();
 
-    // return { player1Icon, player2Icon };
+const gameController = (() => {
+    let activePlayer = player1;
+
+    function placeMark() {
+        if (this.textContent === '') {
+            this.textContent = activePlayer.icon;
+
+            activePlayer.addToMarkedSquares(this.id);
+            activePlayer.matchedSquares();
+
+            activePlayer === player1 ? activePlayer = player2 : activePlayer = player1;
+        }
+    }
+
+    const squares = document.querySelectorAll('.square');
+    squares.forEach((square) => {
+        square.addEventListener('click', placeMark);
+    });
 })();
 
 const button2 = document.querySelector('.btn2');
 button2.addEventListener('click', () => {
-    console.log(newIcon);
+    console.log(player2.icon);
 });
 
 // changeI();
