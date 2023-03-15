@@ -22,6 +22,7 @@ const player = (name) => {
 
     const endGame = () => {
         console.log(`${name} wins!`);
+        gameController.gameActive('inactive');
     };
 
     const matchedSquares = () => {
@@ -63,13 +64,25 @@ const gameController = (() => {
         square.addEventListener('click', placeMark);
     });
 
+    const gameActive = (state) => {
+        if (state === 'active') {
+            squares.forEach((square) => {
+                square.style.pointerEvents = 'auto';
+            });
+        } else {
+            squares.forEach((square) => {
+                square.style.pointerEvents = 'none';
+            });
+        }
+    };
+
     const resetGameBoard = () => {
         squares.forEach((square) => {
             square.textContent = '';
         });
     };
 
-    return { resetGameBoard };
+    return { resetGameBoard, gameActive };
 })();
 
 const chooseIcons = (x, o) => {
@@ -90,17 +103,11 @@ const selectedIcon = (() => {
         if (icon === 'iceFire') return iceFire;
     };
 
-    // const btn = document.querySelector('button');
-    // btn.addEventListener('click', () => {
-    //     player1.icon = selected('catDog').firstPlayerIcon();
-    //     player2.icon = selected('catDog').secondPlayerIcon();
-    // });
-
     const iconsBtn = document.querySelectorAll('.icon');
     iconsBtn.forEach((icon) => {
         icon.addEventListener('click', (e) => {
-            player1.icon = selected(e.target.id).firstPlayerIcon();
-            player2.icon = selected(e.target.id).secondPlayerIcon();
+            player1.icon = selected(e.target.dataset.marker).firstPlayerIcon();
+            player2.icon = selected(e.target.dataset.marker).secondPlayerIcon();
 
             gameController.resetGameBoard();
 
@@ -111,6 +118,3 @@ const selectedIcon = (() => {
 })();
 
 const button2 = document.querySelector('.btn2');
-button2.addEventListener('click', () => {
-    console.log(player2.icon);
-});
