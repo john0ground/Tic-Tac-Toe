@@ -37,12 +37,40 @@ const player = (name) => {
     };
 
     return {
-        matchedSquares, addToMarkedSquares, icon,
+        matchedSquares, addToMarkedSquares, icon, markedSquares,
     };
 };
 
 const player1 = player('Player1');
 const player2 = player('Player2');
+
+const gameController = (() => {
+    let activePlayer = player1;
+
+    function placeMark() {
+        if (this.textContent === '') {
+            this.textContent = activePlayer.icon;
+
+            activePlayer.addToMarkedSquares(parseInt(this.id, 10));
+            activePlayer.matchedSquares();
+
+            activePlayer === player1 ? activePlayer = player2 : activePlayer = player1;
+        }
+    }
+
+    const squares = document.querySelectorAll('.square');
+    squares.forEach((square) => {
+        square.addEventListener('click', placeMark);
+    });
+
+    const resetGameBoard = () => {
+        squares.forEach((square) => {
+            square.textContent = '';
+        });
+    };
+
+    return { resetGameBoard };
+})();
 
 const chooseIcons = (x, o) => {
     const firstPlayerIcon = () => x;
@@ -62,30 +90,23 @@ const selectedIcon = (() => {
         if (icon === 'iceFire') return iceFire;
     };
 
-    const btn = document.querySelector('button');
-    btn.addEventListener('click', () => {
-        player1.icon = selected('catDog').firstPlayerIcon();
-        player2.icon = selected('catDog').secondPlayerIcon();
-    });
-})();
+    // const btn = document.querySelector('button');
+    // btn.addEventListener('click', () => {
+    //     player1.icon = selected('catDog').firstPlayerIcon();
+    //     player2.icon = selected('catDog').secondPlayerIcon();
+    // });
 
-const gameController = (() => {
-    let activePlayer = player1;
+    const iconsBtn = document.querySelectorAll('.icon');
+    iconsBtn.forEach((icon) => {
+        icon.addEventListener('click', (e) => {
+            player1.icon = selected(e.target.id).firstPlayerIcon();
+            player2.icon = selected(e.target.id).secondPlayerIcon();
 
-    function placeMark() {
-        if (this.textContent === '') {
-            this.textContent = activePlayer.icon;
+            gameController.resetGameBoard();
 
-            activePlayer.addToMarkedSquares(parseInt(this.id, 10));
-            activePlayer.matchedSquares();
-
-            activePlayer === player1 ? activePlayer = player2 : activePlayer = player1;
-        }
-    }
-
-    const squares = document.querySelectorAll('.square');
-    squares.forEach((square) => {
-        square.addEventListener('click', placeMark);
+            player1.markedSquares = [];
+            player2.markedSquares = [];
+        });
     });
 })();
 
