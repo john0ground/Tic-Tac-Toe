@@ -7,7 +7,7 @@ const player = (name) => {
     let marker = '';
     const getMarker = () => marker;
 
-    const markedSquares = [];
+    let markedSquares = [];
     const addToMarkedSquares = (squareNum) => markedSquares.push(squareNum);
 
     const winningRows = [
@@ -21,9 +21,14 @@ const player = (name) => {
         [3, 5, 7],
     ];
 
+    const reset = () => {
+        markedSquares = [];
+    };
+
     const endGame = () => {
         console.log(`${name} wins!`);
         gameController.gameActive('inactive');
+        reset();
     };
 
     const matchedSquares = () => {
@@ -62,7 +67,7 @@ const player = (name) => {
     };
 
     return {
-        getMarker, matchedSquares, addToMarkedSquares, marker, updateMarker,
+        getMarker, matchedSquares, addToMarkedSquares, marker, updateMarker, reset,
     };
 };
 
@@ -114,8 +119,8 @@ const gameController = (() => {
         squares.forEach((square) => {
             square.textContent = '';
 
-            player1.markedSquares = [];
-            player2.markedSquares = [];
+            player1.reset();
+            player2.reset();
         });
     };
 
@@ -135,5 +140,4 @@ const gameController = (() => {
 })();
 
 const button2 = document.querySelector('.btn2');
-//  rewrite resetGameBoard
 //  rewrite computerOpponent
