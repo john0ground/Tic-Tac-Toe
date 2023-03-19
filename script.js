@@ -4,7 +4,8 @@ const gameBoard = (() => {
 )();
 
 const player = (name) => {
-    const icon = '';
+    let marker = '';
+    const getMarker = () => marker;
 
     const markedSquares = [];
     const addToMarkedSquares = (squareNum) => markedSquares.push(squareNum);
@@ -37,16 +38,32 @@ const player = (name) => {
         }
     };
 
-    return {
-        matchedSquares, addToMarkedSquares, icon, markedSquares,
+    const chooseIcons = (x, o) => {
+        const firstPlayerIcon = () => x;
+        const secondPlayerIcon = () => o;
+
+        return { firstPlayerIcon, secondPlayerIcon };
     };
-};
 
-const chooseIcons = (x, o) => {
-    const firstPlayerIcon = () => x;
-    const secondPlayerIcon = () => o;
+    const updateMarker = (icon) => {
+        const xo = chooseIcons('x', 'o');
+        const catDog = chooseIcons('🐶', '🐱');
+        const iceFire = chooseIcons('🧊', '🔥');
 
-    return { firstPlayerIcon, secondPlayerIcon };
+        const selected = () => {
+            if (icon === 'xo') return xo;
+            if (icon === 'catDog') return catDog;
+            if (icon === 'iceFire') return iceFire;
+        };
+
+        if (name === 'Player1') {
+            marker = selected().firstPlayerIcon();
+        } else marker = selected().secondPlayerIcon();
+    };
+
+    return {
+        getMarker, matchedSquares, addToMarkedSquares, marker, updateMarker,
+    };
 };
 
 const player1 = player('Player1');
@@ -57,14 +74,12 @@ const gameController = (() => {
 
     function placeMark() {
         if (this.textContent === '') {
-            this.textContent = activePlayer.icon;
+            this.textContent = activePlayer.getMarker();
 
             activePlayer.addToMarkedSquares(parseInt(this.id, 10));
             activePlayer.matchedSquares();
 
             activePlayer === player1 ? activePlayer = player2 : activePlayer = player1;
-
-            console.log(player1.icon);
         }
     }
 
@@ -84,6 +99,16 @@ const gameController = (() => {
             });
         }
     };
+
+    const iconsBtn = document.querySelectorAll('.icon');
+    iconsBtn.forEach((icon) => {
+        icon.addEventListener('click', (e) => {
+            player1.updateMarker(e.target.dataset.marker);
+            player2.updateMarker(e.target.dataset.marker);
+
+            gameController.resetGameBoard();
+        });
+    });
 
     const resetGameBoard = () => {
         squares.forEach((square) => {
@@ -109,30 +134,6 @@ const gameController = (() => {
     return { resetGameBoard, gameActive };
 })();
 
-const selectedIcon = (() => {
-    const xo = chooseIcons('x', 'o');
-    const catDog = chooseIcons('🐶', '🐱');
-    const iceFire = chooseIcons('🧊', '🔥');
-
-    const selected = (icon) => {
-        if (icon === 'xo') return xo;
-        if (icon === 'catDog') return catDog;
-        if (icon === 'iceFire') return iceFire;
-    };
-
-    const iconsBtn = document.querySelectorAll('.icon');
-    iconsBtn.forEach((icon) => {
-        icon.addEventListener('click', (e) => {
-            player1.icon = selected(e.target.dataset.marker).firstPlayerIcon();
-            player2.icon = selected(e.target.dataset.marker).secondPlayerIcon();
-
-            gameController.resetGameBoard();
-        });
-    });
-})();
-
 const button2 = document.querySelector('.btn2');
-
-//  rewrite selectedIcon
 //  rewrite resetGameBoard
 //  rewrite computerOpponent
