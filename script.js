@@ -1,5 +1,17 @@
 const gameBoard = (() => {
-    const board = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+    let board = [1, 2, 3, 4, 'A', 6, 7, 8, 9];
+
+    const updateBoard = (square, marker) => {
+        board[square] = marker;
+    };
+
+    const emptySquares = () => board.filter((index) => typeof index === 'number');
+
+    const resetBoard = () => {
+        board = [1, 2, 3, 4, 'A', 6, 7, 8, 9];
+    };
+
+    return { updateBoard, emptySquares, resetBoard };
 }
 )();
 
