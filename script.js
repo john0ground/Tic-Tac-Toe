@@ -42,8 +42,15 @@ const player = (name) => {
     };
 };
 
+const chooseIcons = (x, o) => {
+    const firstPlayerIcon = () => x;
+    const secondPlayerIcon = () => o;
+
+    return { firstPlayerIcon, secondPlayerIcon };
+};
+
 const player1 = player('Player1');
-const player2 = player('Player2');
+let player2 = player('Player2');
 
 const gameController = (() => {
     let activePlayer = player1;
@@ -56,6 +63,8 @@ const gameController = (() => {
             activePlayer.matchedSquares();
 
             activePlayer === player1 ? activePlayer = player2 : activePlayer = player1;
+
+            console.log(player1.icon);
         }
     }
 
@@ -79,18 +88,26 @@ const gameController = (() => {
     const resetGameBoard = () => {
         squares.forEach((square) => {
             square.textContent = '';
+
+            player1.markedSquares = [];
+            player2.markedSquares = [];
         });
     };
 
+    const computerOpponent = document.querySelector('.computer');
+    computerOpponent.addEventListener('click', () => {
+        player2 = player('Computer');
+        player1.icon = chooseIcons('x', 'o').firstPlayerIcon();
+        player2.icon = chooseIcons('x', 'o').secondPlayerIcon();
+
+        activePlayer = player1;
+
+        resetGameBoard();
+        gameActive('active');
+    });
+
     return { resetGameBoard, gameActive };
 })();
-
-const chooseIcons = (x, o) => {
-    const firstPlayerIcon = () => x;
-    const secondPlayerIcon = () => o;
-
-    return { firstPlayerIcon, secondPlayerIcon };
-};
 
 const selectedIcon = (() => {
     const xo = chooseIcons('x', 'o');
@@ -110,11 +127,12 @@ const selectedIcon = (() => {
             player2.icon = selected(e.target.dataset.marker).secondPlayerIcon();
 
             gameController.resetGameBoard();
-
-            player1.markedSquares = [];
-            player2.markedSquares = [];
         });
     });
 })();
 
 const button2 = document.querySelector('.btn2');
+
+//  rewrite selectedIcon
+//  rewrite resetGameBoard
+//  rewrite computerOpponent
