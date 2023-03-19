@@ -127,13 +127,13 @@ const gameController = (() => {
     const computerOpponent = document.querySelector('.computer');
     computerOpponent.addEventListener('click', () => {
         player2 = player('Computer');
-        player1.icon = chooseIcons('x', 'o').firstPlayerIcon();
-        player2.icon = chooseIcons('x', 'o').secondPlayerIcon();
-
         activePlayer = player1;
 
         resetGameBoard();
         gameActive('active');
+
+        player1.updateMarker('xo');
+        player2.updateMarker('xo');
     });
 
     return { resetGameBoard, gameActive };
