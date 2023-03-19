@@ -1,14 +1,14 @@
 const gameBoard = (() => {
-    let board = [1, 2, 3, 4, 'A', 6, 7, 8, 9];
+    let board = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+
+    const emptySquares = () => board.filter((index) => typeof index === 'number');
 
     const updateBoard = (square, marker) => {
         board[square] = marker;
     };
 
-    const emptySquares = () => board.filter((index) => typeof index === 'number');
-
     const resetBoard = () => {
-        board = [1, 2, 3, 4, 'A', 6, 7, 8, 9];
+        board = [1, 2, 3, 4, 5, 6, 7, 8, 9];
     };
 
     return { updateBoard, emptySquares, resetBoard };
@@ -37,8 +37,14 @@ const player = (name) => {
         markedSquares = [];
     };
 
-    const endGame = () => {
-        console.log(`${name} wins!`);
+    const endGame = (state) => {
+        if (state === 'win') {
+            console.log(`${name} wins!`);
+        }
+        if (state === 'draw') {
+            console.log('It\'s a draw!');
+        }
+
         gameController.gameActive('inactive');
         reset();
     };
@@ -46,12 +52,18 @@ const player = (name) => {
     const matchedSquares = () => {
         const isInMarkedSquares = (currentNum) => markedSquares.includes(currentNum);
 
+        let gameWon = false;
         let i = 0;
         while (i < winningRows.length) {
             if (winningRows[i].every(isInMarkedSquares)) {
-                return endGame();
+                endGame('win');
+                gameWon = true;
             }
             i++;
+        }
+
+        if (!gameWon && gameBoard.emptySquares().length === 0) {
+            return endGame('draw');
         }
     };
 
@@ -92,8 +104,12 @@ const gameController = (() => {
     function placeMark() {
         if (this.textContent === '') {
             this.textContent = activePlayer.getMarker();
+            const chosenSquare = parseInt(this.id, 10);
 
-            activePlayer.addToMarkedSquares(parseInt(this.id, 10));
+            gameBoard.updateBoard((chosenSquare - 1), activePlayer.getMarker());
+            console.log(gameBoard.emptySquares());
+
+            activePlayer.addToMarkedSquares(chosenSquare);
             activePlayer.matchedSquares();
 
             activePlayer === player1 ? activePlayer = player2 : activePlayer = player1;
