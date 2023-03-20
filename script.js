@@ -100,6 +100,7 @@ let player2 = player('Player2');
 
 const gameController = (() => {
     let activePlayer = player1;
+    let currentOpponent = 'human';
 
     function placeMark() {
         if (this.textContent === '') {
@@ -113,6 +114,7 @@ const gameController = (() => {
             activePlayer.matchedSquares();
 
             activePlayer === player1 ? activePlayer = player2 : activePlayer = player1;
+            console.log(currentOpponent);
         }
     }
 
@@ -152,20 +154,31 @@ const gameController = (() => {
         });
     };
 
-    const computerOpponent = document.querySelector('.computer');
-    computerOpponent.addEventListener('click', () => {
-        player2 = player('Computer');
-        activePlayer = player1;
+    const changeOpponent = (e) => {
+        if (e.target.id === 'computer') {
+            player2 = player('Computer');
+            currentOpponent = 'computer';
+        } else {
+            player2 = player('Player2');
+            currentOpponent = 'human';
+        }
 
         resetGameBoard();
         gameActive('active');
 
+        activePlayer = player1;
         player1.updateMarker('xo');
         player2.updateMarker('xo');
+    };
+
+    const opponentBtn = document.querySelectorAll('.change-op');
+    opponentBtn.forEach((btn) => {
+        btn.addEventListener('click', changeOpponent);
     });
 
     return { resetGameBoard, gameActive };
 })();
 
 const button2 = document.querySelector('.btn2');
-//  rewrite computerOpponent
+
+//  computerRandom
