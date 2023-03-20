@@ -102,6 +102,20 @@ const gameController = (() => {
     let activePlayer = player1;
     let currentOpponent = 'human';
 
+    function computerPlaceMark() {
+        // choose index based on emptySquares array length, 5 will be 0 - 4 and so on.
+        const chooseIndex = Math.floor(Math.random() * gameBoard.emptySquares().length);
+        const chosenSquare = gameBoard.emptySquares()[chooseIndex];
+        document.getElementById(`${chosenSquare}`).textContent = activePlayer.getMarker();
+
+        gameBoard.updateBoard((chosenSquare - 1), activePlayer.getMarker());
+
+        activePlayer.addToMarkedSquares(chosenSquare);
+        activePlayer.matchedSquares();
+
+        activePlayer = player1;
+    }
+
     function placeMark() {
         if (this.textContent === '') {
             this.textContent = activePlayer.getMarker();
@@ -114,7 +128,10 @@ const gameController = (() => {
             activePlayer.matchedSquares();
 
             activePlayer === player1 ? activePlayer = player2 : activePlayer = player1;
-            console.log(currentOpponent);
+
+            if (activePlayer === player2 && currentOpponent === 'computer') {
+                computerPlaceMark();
+            }
         }
     }
 
