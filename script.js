@@ -99,6 +99,7 @@ const player1 = player('Player1');
 let player2 = player('Player2');
 
 const gameController = (() => {
+    let currentState = 'active';
     let activePlayer = player1;
     let currentOpponent = 'human';
 
@@ -122,14 +123,13 @@ const gameController = (() => {
             const chosenSquare = parseInt(this.id, 10);
 
             gameBoard.updateBoard((chosenSquare - 1), activePlayer.getMarker());
-            console.log(gameBoard.emptySquares());
 
             activePlayer.addToMarkedSquares(chosenSquare);
             activePlayer.matchedSquares();
 
             activePlayer === player1 ? activePlayer = player2 : activePlayer = player1;
 
-            if (activePlayer === player2 && currentOpponent === 'computer') {
+            if (activePlayer === player2 && currentOpponent === 'computer' && currentState === 'active') {
                 computerPlaceMark();
             }
         }
@@ -144,10 +144,12 @@ const gameController = (() => {
         if (state === 'active') {
             squares.forEach((square) => {
                 square.style.pointerEvents = 'auto';
+                currentState = 'active';
             });
         } else {
             squares.forEach((square) => {
                 square.style.pointerEvents = 'none';
+                currentState = 'inactive';
             });
         }
     };
@@ -197,5 +199,3 @@ const gameController = (() => {
 })();
 
 const button2 = document.querySelector('.btn2');
-
-//  computerRandom
