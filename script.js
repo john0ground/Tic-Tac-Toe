@@ -108,6 +108,7 @@ const gameController = (() => {
         const chooseIndex = Math.floor(Math.random() * gameBoard.emptySquares().length);
         const chosenSquare = gameBoard.emptySquares()[chooseIndex];
         document.getElementById(`${chosenSquare}`).textContent = activePlayer.getMarker();
+        document.getElementById(`${chosenSquare}`).style.color = 'rgb(157, 221, 157)';
 
         gameBoard.updateBoard((chosenSquare - 1), activePlayer.getMarker());
 
@@ -121,8 +122,14 @@ const gameController = (() => {
         if (this.textContent === '') {
             this.classList.add('marked');
             this.textContent = activePlayer.getMarker();
-            const chosenSquare = parseInt(this.id, 10);
 
+            if (activePlayer === player1) {
+                this.style.color = 'rgb(142, 194, 214)';
+            } else {
+                this.style.color = 'rgb(157, 221, 157)';
+            }
+
+            const chosenSquare = parseInt(this.id, 10);
             gameBoard.updateBoard((chosenSquare - 1), activePlayer.getMarker());
 
             activePlayer.addToMarkedSquares(chosenSquare);
