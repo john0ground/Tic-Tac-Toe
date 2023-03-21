@@ -26,8 +26,10 @@ main {
 
 .gameboard {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
+  grid-template-columns: repeat(3, 95px);
+  grid-template-rows: repeat(3, 95px);
+  justify-items: center;
+  align-items: center;
 }
 
 .square {
@@ -40,12 +42,31 @@ main {
   font-family: 'Roboto', sans-serif;
   font-size: 45px;
   box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.8);
-  transition: font-size 1s;
+  position: relative;
 }
 
 .square:not(.marked):hover {
   background: #4d61808c;
   cursor: pointer;
+}
+
+.growSquare {
+  animation: grow-and-contract 0.7s linear;
+}
+
+@keyframes grow-and-contract {
+  0% {
+    width: 80px;
+    height: 80px;
+  }
+  50% {
+    width: 90px;
+    height: 90px;
+  }
+  100% {
+    width: 80px;
+    height: 80px;
+  }
 }
 
 .choose-opponent-page {

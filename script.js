@@ -33,6 +33,9 @@ const player = (name) => {
         [3, 5, 7],
     ];
 
+    // let squaresWon = [];
+    // const getSquaresWon = () => squaresWon;
+
     const reset = () => {
         markedSquares = [];
     };
@@ -58,6 +61,10 @@ const player = (name) => {
             if (winningRows[i].every(isInMarkedSquares)) {
                 endGame('win');
                 gameWon = true;
+
+                // squares won animation
+                const squaresWon = winningRows[i];
+                gameController.squaresWonAnimation(squaresWon);
             }
             i++;
         }
@@ -185,6 +192,27 @@ const gameController = (() => {
         });
     };
 
+    const squaresWonAnimation = (squares) => {
+        let setDelay = 0;
+        let i = 0;
+
+        while (i < squares.length) {
+            const squareElement = document.getElementById(`${squares[i]}`);
+
+            setTimeout(() => {
+                squareElement.classList.add('growSquare');
+            }, setDelay);
+
+            setDelay += 200;
+            i++;
+        }
+
+        setDelay = 0;
+        squares.forEach((square) => {
+            document.getElementById(`${square}`).classList.remove('growSquare');
+        });
+    };
+
     const changeOpponent = (e) => {
         if (e.target.id === 'computer') {
             player2 = player('Computer');
@@ -207,7 +235,7 @@ const gameController = (() => {
         btn.addEventListener('click', changeOpponent);
     });
 
-    return { resetGameBoard, gameActive };
+    return { resetGameBoard, gameActive, squaresWonAnimation };
 })();
 
 const button2 = document.querySelector('.btn2');
