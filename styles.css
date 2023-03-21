@@ -34,13 +34,18 @@ main {
   justify-content: center;
   font-size: 30px;
   box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.8);
+  transition: font-size 1s;
 }
 
-.marked {
-  pointer-events: none;
-}
-
-.square:hover {
+.square:not(.marked):hover {
   background: #4d61808c;
   cursor: pointer;
+}
+
+.choose-opponent-page {
+  position: absolute;
+  top: 0;
+  background: linear-gradient(to right, rgb(92, 144, 167), rgb(201, 216, 223));
+  width: 100%;
+  height: 100%;
 }
