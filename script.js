@@ -119,6 +119,7 @@ const gameController = (() => {
 
     function placeMark() {
         if (this.textContent === '') {
+            this.classList.add('marked');
             this.textContent = activePlayer.getMarker();
             const chosenSquare = parseInt(this.id, 10);
 
@@ -167,6 +168,10 @@ const gameController = (() => {
     const resetGameBoard = () => {
         squares.forEach((square) => {
             square.textContent = '';
+            square.classList.remove('marked');
+
+            gameBoard.resetBoard();
+            gameActive('active');
 
             player1.reset();
             player2.reset();

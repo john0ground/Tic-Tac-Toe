@@ -1,16 +1,46 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: linear-gradient(to right, rgb(92, 144, 167), rgb(201, 216, 223));
+}
+
+h1 {
+  text-align: center;
+  margin-top: 50px;
+}
+
+main {
+  /* border: 1px solid #000; */
+  width: fit-content;
+  margin: 40px auto;
+}
+
 .gameboard {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  width: min-content;
+  gap: 10px;
 }
 
 .square {
-  width: 50px;
-  height: 50px;
-  border: 1px solid #000;
+  width: 80px;
+  height: 80px;
+  background: #4d6180;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+  box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.8);
+}
+
+.marked {
+  pointer-events: none;
 }
 
 .square:hover {
-  background: rgba(135, 207, 235, 0.521);
+  background: #4d61808c;
   cursor: pointer;
 }
