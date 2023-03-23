@@ -214,9 +214,10 @@ const gameController = (() => {
     };
 
     const changeOpponent = (e) => {
-        if (e.target.id === 'computer') {
+        if (e.target.dataset.opponent === 'computer') {
             player2 = player('Computer');
             currentOpponent = 'computer';
+            console.log('worked?');
         } else {
             player2 = player('Player2');
             currentOpponent = 'human';
@@ -233,6 +234,16 @@ const gameController = (() => {
     const opponentBtn = document.querySelectorAll('.change-op');
     opponentBtn.forEach((btn) => {
         btn.addEventListener('click', changeOpponent);
+    });
+
+    const chooseOpponentsBtn = document.querySelectorAll('.choose-opponents-btn');
+    chooseOpponentsBtn.forEach((btn) => {
+        btn.addEventListener('click', (e) => {
+            const chooseOpponentsPage = document.querySelector('.choose-opponent-page');
+            // chooseOpponentsPage.style.left = '-110%';
+            chooseOpponentsPage.style.animation = 'close-shrink 0.5s linear forwards';
+            changeOpponent(e);
+        });
     });
 
     return { resetGameBoard, gameActive, squaresWonAnimation };
