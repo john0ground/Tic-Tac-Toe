@@ -31,10 +31,10 @@ main {
 }
 
 .current-marker {
-  background: #4d6180;
+  background: rgba(222, 184, 135, 0.753);
   padding: 5px 10px;
   font-size: 1rem;
-  color: rgb(142, 194, 214);
+  color: black;
   border: none;
   border-radius: 5px;
   box-shadow: 1px 2px 1px rgba(0, 0, 0, 0.7);
@@ -51,7 +51,6 @@ main {
   box-shadow: 1px 2px 1px rgba(0, 0, 0, 0.7);
 }
 
-.current-marker:hover, 
 .change-opponent:hover {
   cursor: pointer;
   background: #4d6180d0;
@@ -69,7 +68,8 @@ main {
   box-shadow: 1px 2px 1px rgba(0, 0, 0, 0.7);
 }
 
-.reset:hover {
+.reset:hover,
+.current-marker:hover {
   cursor: pointer;
   background: rgba(222, 184, 135, 0.952);
 }
