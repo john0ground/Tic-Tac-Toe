@@ -249,6 +249,9 @@ const gameController = (() => {
     return { resetGameBoard, gameActive, squaresWonAnimation };
 })();
 
-const button2 = document.querySelector('.btn2');
-
-//  center modal for buttons section
+const userInputAndDisplay = (() => {
+    const resetBtn = document.querySelector('.reset');
+    resetBtn.addEventListener('click', () => {
+        gameController.resetGameBoard();
+    });
+})();
