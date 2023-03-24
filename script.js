@@ -185,13 +185,15 @@ const gameController = (() => {
         squares.forEach((square) => {
             square.textContent = '';
             square.classList.remove('marked');
-
-            gameBoard.resetBoard();
-            gameActive('active');
-
-            player1.reset();
-            player2.reset();
         });
+
+        gameBoard.resetBoard();
+        gameActive('active');
+
+        player1.reset();
+        player2.reset();
+
+        document.querySelector('.current-marker').textContent = 'X O';
     };
 
     const squaresWonAnimation = (squares) => {
@@ -232,11 +234,6 @@ const gameController = (() => {
         player2.updateMarker('xo');
     };
 
-    const opponentBtn = document.querySelectorAll('.change-op');
-    opponentBtn.forEach((btn) => {
-        btn.addEventListener('click', changeOpponent);
-    });
-
     const chooseOpponentsBtn = document.querySelectorAll('.choose-opponents-btn');
     chooseOpponentsBtn.forEach((btn) => {
         btn.addEventListener('click', (e) => {
@@ -267,6 +264,12 @@ const userInputAndDisplay = (() => {
         availableIcons.classList.remove('reveal-available-icons');
         changeMarkerBtn.textContent = e.target.textContent;
     };
+
+    const chooseOpponentBtn = document.querySelector('.change-opponent');
+    chooseOpponentBtn.addEventListener('click', () => {
+        const chooseOpponentsPage = document.querySelector('.choose-opponent-page');
+        chooseOpponentsPage.style.animation = 'open-grow 0.5s forwards';
+    });
 
     return { closeAvailableIcons };
 })();

@@ -204,6 +204,15 @@ main {
   }
 }
 
+@keyframes open-grow {
+  from {
+    transform: scale(0);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
 .choose-opponent-page h1 {
   margin: 0;
 }
