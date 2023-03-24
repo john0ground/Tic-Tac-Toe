@@ -176,6 +176,8 @@ const gameController = (() => {
             player2.updateMarker(e.target.dataset.marker);
 
             gameController.resetGameBoard();
+
+            userInputAndDisplay.closeAvailableIcons(e);
         });
     });
 
@@ -217,7 +219,6 @@ const gameController = (() => {
         if (e.target.dataset.opponent === 'computer') {
             player2 = player('Computer');
             currentOpponent = 'computer';
-            console.log('worked?');
         } else {
             player2 = player('Player2');
             currentOpponent = 'human';
@@ -254,4 +255,18 @@ const userInputAndDisplay = (() => {
     resetBtn.addEventListener('click', () => {
         gameController.resetGameBoard();
     });
+
+    const changeMarkerBtn = document.querySelector('.current-marker');
+    const availableIcons = document.querySelector('.available-icons');
+
+    changeMarkerBtn.addEventListener('click', () => {
+        availableIcons.classList.toggle('reveal-available-icons');
+    });
+
+    const closeAvailableIcons = (e) => {
+        availableIcons.classList.remove('reveal-available-icons');
+        changeMarkerBtn.textContent = e.target.textContent;
+    };
+
+    return { closeAvailableIcons };
 })();

@@ -19,15 +19,19 @@ h1 {
 }
 
 main {
-  /* border: 1px solid #000; */
   width: fit-content;
   margin: 40px auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .modify-game {
   display: flex;
   justify-content: space-between;
   margin-bottom: 50px;
+  position: relative;
+  width: 320px;
 }
 
 .current-marker {
@@ -38,6 +42,65 @@ main {
   border: none;
   border-radius: 5px;
   box-shadow: 1px 2px 1px rgba(0, 0, 0, 0.7);
+  width: 70px;
+}
+
+.available-icons {
+  position: absolute;
+  left: -130px;
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 150px;
+  padding: 10px 5px;
+  background: rgba(222, 184, 135, 0.753);
+  border-radius: 5px;
+}
+
+.reveal-available-icons {
+  display: flex;
+  animation: grow 0.2s ease-in;
+}
+
+@keyframes grow {
+  from {
+    transform: scale(0);
+    left: -50px;
+  }
+  to {
+    transform: scale(1);
+    left: -130px;
+  }
+}
+
+@keyframes shrink {
+  from {
+    transform: scale(1);
+    left: -130px;
+  }
+  to {
+    transform: scale(0);
+    left: -50px;
+  }
+}
+
+.reset {
+  width: 70px;
+}
+
+.icon {
+  background: #4d6180;
+  border: none;
+  font-size: 1.3rem;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+  box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.582);
+}
+
+.icon:hover {
+  cursor: pointer;
+  background: #61789b;
 }
 
 .change-opponent {
