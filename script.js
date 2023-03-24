@@ -250,3 +250,5 @@ const gameController = (() => {
 })();
 
 const button2 = document.querySelector('.btn2');
+
+//  center modal for buttons section
