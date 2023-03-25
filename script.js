@@ -16,6 +16,8 @@ const gameBoard = (() => {
 )();
 
 const player = (name) => {
+    const getName = () => name;
+
     let marker = '';
     const getMarker = () => marker;
 
@@ -82,7 +84,7 @@ const player = (name) => {
     };
 
     const updateMarker = (icon) => {
-        const xo = chooseIcons('x', 'o');
+        const xo = chooseIcons('X', 'O');
         const catDog = chooseIcons('🐶', '🐱');
         const iceFire = chooseIcons('🧊', '🔥');
 
@@ -98,7 +100,7 @@ const player = (name) => {
     };
 
     return {
-        getMarker, matchedSquares, addToMarkedSquares, marker, updateMarker, reset,
+        getMarker, matchedSquares, addToMarkedSquares, marker, updateMarker, reset, getName,
     };
 };
 
@@ -139,6 +141,9 @@ const gameController = (() => {
             const chosenSquare = parseInt(this.id, 10);
             gameBoard.updateBoard((chosenSquare - 1), activePlayer.getMarker());
 
+            const playerTurn = document.querySelector('.turn');
+            playerTurn.style.display = 'block';
+
             activePlayer.addToMarkedSquares(chosenSquare);
             activePlayer.matchedSquares();
 
@@ -147,6 +152,9 @@ const gameController = (() => {
             if (activePlayer === player2 && currentOpponent === 'computer' && currentState === 'active') {
                 computerPlaceMark();
             }
+
+            const turnName = document.querySelector('.turn-name');
+            turnName.textContent = `${activePlayer.getName()} - ${activePlayer.getMarker()}`;
         }
     }
 
@@ -194,6 +202,7 @@ const gameController = (() => {
         player2.reset();
 
         document.querySelector('.current-marker').textContent = 'X O';
+        document.querySelector('.turn').style.display = 'none';
     };
 
     const squaresWonAnimation = (squares) => {
