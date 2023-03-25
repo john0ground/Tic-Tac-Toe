@@ -35,19 +35,16 @@ const player = (name) => {
         [3, 5, 7],
     ];
 
-    // let squaresWon = [];
-    // const getSquaresWon = () => squaresWon;
-
     const reset = () => {
         markedSquares = [];
     };
 
     const endGame = (state) => {
         if (state === 'win') {
-            console.log(`${name} wins!`);
+            userInputAndDisplay.displayWinner(name);
         }
         if (state === 'draw') {
-            console.log('It\'s a draw!');
+            userInputAndDisplay.displayDraw();
         }
 
         gameController.gameActive('inactive');
@@ -201,8 +198,11 @@ const gameController = (() => {
         player1.reset();
         player2.reset();
 
+        activePlayer = player1;
+
         document.querySelector('.current-marker').textContent = 'X O';
-        document.querySelector('.turn').style.display = 'none';
+        document.querySelector('.turn-name').textContent = `${player1.getName()} ${player1.getMarker()}`;
+        document.querySelector('.output-main').textContent = 'Tic Tac Toe';
     };
 
     const squaresWonAnimation = (squares) => {
@@ -280,5 +280,13 @@ const userInputAndDisplay = (() => {
         chooseOpponentsPage.style.animation = 'open-grow 0.5s forwards';
     });
 
-    return { closeAvailableIcons };
+    const outputMain = document.querySelector('.output-main');
+    const displayWinner = (name) => {
+        outputMain.textContent = `${name} wins!`;
+    };
+    const displayDraw = () => {
+        outputMain.textContent = 'It\'s a draw!';
+    };
+
+    return { closeAvailableIcons, displayWinner, displayDraw };
 })();
