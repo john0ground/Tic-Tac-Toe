@@ -1,5 +1,5 @@
 # Tic-Tac-Toe
-Task from [The Odin Project](https://www.theodinproject.com/lessons/node-path-javascript-tic-tac-toe#assignment)!
+Task from [The Odin Project](https://www.theodinproject.com/lessons/node-path-javascript-tic-tac-toe#assignment)
 
 The lesson focuses on Factory Functions and The Module Pattern where
 the goal is to have as little global code as possible. Applied concepts that
