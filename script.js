@@ -283,9 +283,19 @@ const userInputAndDisplay = (() => {
     const outputMain = document.querySelector('.output-main');
     const displayWinner = (name) => {
         outputMain.textContent = `${name} wins!`;
+        outputMain.classList.add('display-winner');
+        removeWinnerAnimation();
     };
     const displayDraw = () => {
         outputMain.textContent = 'It\'s a draw!';
+        outputMain.classList.add('display-winner');
+        removeWinnerAnimation();
+    };
+
+    const removeWinnerAnimation = () => {
+        setTimeout(() => {
+            outputMain.classList.remove('display-winner');
+        }, 600);
     };
 
     return { closeAvailableIcons, displayWinner, displayDraw };
